@@ -1,456 +1,657 @@
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
-  
-  :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #f59e0b;
-    --accent: #ec4899;
-    --dark: #0f172a;
-    --light: #f8fafc;
-  }
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  body::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    animation: float 20s infinite linear;
-  }
-  
-  @keyframes float {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    100% { transform: translate(-50px, -50px) rotate(360deg); }
-  }
-  
-  .premium-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 32px;
-    padding: 60px 50px;
-    width: 100%;
-    max-width: 520px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 
-      0 25px 50px rgba(0, 0, 0, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1);
-    position: relative;
-    overflow: hidden;
-    z-index: 10;
-  }
-  
-  .premium-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite linear;
-  }
-  
-  .decoration-circle {
-    position: absolute;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    animation: float 15s infinite ease-in-out;
-  }
-  
-  .circle-1 {
-    width: 200px;
-    height: 200px;
-    top: -100px;
-    right: -100px;
-    animation-delay: 0s;
-  }
-  
-  .circle-2 {
-    width: 150px;
-    height: 150px;
-    bottom: -75px;
-    left: -75px;
-    animation-delay: -5s;
-  }
-  
-  .header-section {
-    text-align: center;
-    margin-bottom: 50px;
-    position: relative;
-  }
-  
-  .logo-container {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-    animation: pulse 2s infinite ease-in-out;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-  }
-  
-  .logo-icon {
-    font-size: 2rem;
-    color: white;
-  }
-  
-  .premium-title {
-    font-size: 2.8rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, var(--light), #e2e8f0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
-  }
-  
-  .premium-subtitle {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.1rem;
-    font-weight: 400;
-  }
-  
-  .input-group {
-    position: relative;
-    margin-bottom: 35px;
-  }
-  
-  .input-container {
-    position: relative;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
-  }
-  
-  .input-container:focus-within {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  }
-  
-  .input-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.3rem;
-    transition: all 0.3s ease;
-    z-index: 2;
-  }
-  
-  .premium-input {
-    width: 100%;
-    padding: 20px 20px 20px 60px;
-    background: transparent;
-    border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    color: white;
-    transition: all 0.3s ease;
-  }
-  
-  .premium-input::placeholder {
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  .premium-input:focus {
-    outline: none;
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .input-container:focus-within .input-icon {
-    color: var(--secondary);
-    transform: translateY(-50%) scale(1.1);
-  }
-  
-  .password-actions {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 10px;
-  }
-  
-  .password-toggle, .security-indicator {
-    background: none;
-    border: none;
-    color: rgba(255, 255, 255, 0.6);
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    padding: 5px;
-  }
-  
-  .password-toggle:hover, .security-indicator:hover {
-    color: var(--secondary);
-    transform: scale(1.1);
-  }
-  
-  .premium-btn {
-    width: 100%;
-    padding: 20px;
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    border: none;
-    border-radius: 16px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-  }
-  
-  .premium-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: left 0.6s;
-  }
-  
-  .premium-btn:hover::before {
-    left: 100%;
-  }
-  
-  .premium-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(99, 102, 241, 0.6);
-  }
-  
-  .btn-icon {
-    margin-right: 10px;
-  }
-  
-  .divider {
-    display: flex;
-    align-items: center;
-    margin: 35px 0;
-    color: rgba(255, 255, 255, 0.6);
-  }
-  
-  .divider::before, .divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.3);
-  }
-  
-  .divider span {
-    padding: 0 15px;
-    font-size: 14px;
-  }
-  
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 35px;
-  }
-  
-  .social-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
-  }
-  
-  .social-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-  }
-  
-  .social-btn i {
-    font-size: 1.2rem;
-  }
-  
-  .footer-links {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  
-  .footer-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  }
-  
-  .footer-link:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    transform: translateY(-2px);
-  }
-  
-  .footer-link i {
-    margin-right: 8px;
-    font-size: 1.1rem;
-  }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Luxury Design</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8B5CF6;
+            --primary-dark: #7C3AED;
+            --primary-light: #A78BFA;
+            --secondary: #F59E0B;
+            --accent: #EC4899;
+            --gold: #FBBF24;
+            --dark: #0F0F1B;
+            --light: #F8FAFC;
+            --platinum: #E5E7EB;
+        }
 
-<div class="premium-container">
-  <div class="decoration-circle circle-1"></div>
-  <div class="decoration-circle circle-2"></div>
-  
-  <div class="header-section">
-    <div class="logo-container">
-      <i class="fas fa-shield-alt logo-icon"></i>
-    </div>
-    <h1 class="premium-title">Secure Access</h1>
-    <p class="premium-subtitle">Enter your credentials to continue</p>
-  </div>
-  
-  <form action="/login" method="POST">
-    <div class="input-group">
-      <div class="input-container">
-        <i class="fas fa-user-circle input-icon"></i>
-        <input 
-          type="email" 
-          name="email" 
-          class="premium-input" 
-          placeholder="Enter your email"
-          required 
-        />
-      </div>
-    </div>
-    
-    <div class="input-group">
-      <div class="input-container">
-        <i class="fas fa-lock input-icon"></i>
-        <input 
-          type="password" 
-          name="password" 
-          class="premium-input" 
-          id="password"
-          placeholder="Enter your password"
-          required 
-        />
-        <div class="password-actions">
-          <button type="button" class="security-indicator" title="Password Strength">
-            <i class="fas fa-shield"></i>
-          </button>
-          <button type="button" class="password-toggle" onclick="togglePassword()">
-            <i class="fas fa-eye"></i>
-          </button>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1E1B4B 0%, #0F0F1B 50%, #500724 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Luxury Background Effects */
+        .luxury-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+            animation: luxuryFloat 20s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes luxuryFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            33% { transform: scale(1.05) rotate(1deg); }
+            66% { transform: scale(1.02) rotate(-0.5deg); }
+        }
+
+        .sparkle {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .sparkle::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s infinite;
+            box-shadow: 
+                0 0 10px 2px rgba(255, 255, 255, 0.8),
+                0 0 20px 4px rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Luxury Container */
+        .luxury-container {
+            width: 100%;
+            max-width: 420px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.12) 0%, 
+                rgba(255, 255, 255, 0.08) 50%, 
+                rgba(255, 255, 255, 0.04) 100%);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 28px;
+            padding: 45px 40px;
+            box-shadow: 
+                0 25px 60px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                0 0 60px rgba(139, 92, 246, 0.15);
+            position: relative;
+            z-index: 3;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            overflow: hidden;
+        }
+
+        .luxury-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                transparent, 
+                rgba(139, 92, 246, 0.3), 
+                rgba(245, 158, 11, 0.2), 
+                rgba(236, 72, 153, 0.3), 
+                transparent);
+            border-radius: 30px;
+            z-index: -1;
+            animation: borderGlow 4s ease-in-out infinite;
+            filter: blur(8px);
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Header Section */
+        .luxury-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .luxury-logo {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: 
+                0 15px 40px rgba(139, 92, 246, 0.4),
+                0 0 30px rgba(236, 72, 153, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+            animation: luxuryFloat 6s ease-in-out infinite;
+        }
+
+        .luxury-logo::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0.6;
+            filter: blur(12px);
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            color: white;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .luxury-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFF, var(--platinum), #CBD5E1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .luxury-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* Form Elements */
+        .luxury-form {
+            margin-bottom: 35px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .luxury-input-container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .luxury-input-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.15), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .luxury-input-container:focus-within::before {
+            left: 100%;
+        }
+
+        .luxury-input-container:focus-within {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 40px rgba(0, 0, 0, 0.25),
+                0 0 0 3px rgba(245, 158, 11, 0.1),
+                0 0 30px rgba(245, 158, 11, 0.1);
+        }
+
+        .luxury-input-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .luxury-input {
+            width: 100%;
+            padding: 18px 20px 18px 60px;
+            background: transparent;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .luxury-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 400;
+        }
+
+        .luxury-input:focus {
+            outline: none;
+        }
+
+        .luxury-input-container:focus-within .luxury-input-icon {
+            color: var(--gold);
+            transform: translateY(-50%) scale(1.15);
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+        }
+
+        /* Password Actions */
+        .luxury-password-actions {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .luxury-action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            padding: 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            backdrop-filter: blur(10px);
+        }
+
+        .luxury-action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--gold);
+            transform: scale(1.1);
+            border-color: rgba(245, 158, 11, 0.3);
+            box-shadow: 0 5px 15px rgba(245, 158, 11, 0.2);
+        }
+
+        /* Luxury Button */
+        .luxury-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary), var(--accent), var(--primary-dark));
+            background-size: 200% 200%;
+            color: white;
+            border: none;
+            border-radius: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 12px 35px rgba(139, 92, 246, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .luxury-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .luxury-btn:hover::before {
+            left: 100%;
+        }
+
+        .luxury-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 45px rgba(139, 92, 246, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.2),
+                0 0 40px rgba(139, 92, 246, 0.3);
+        }
+
+        .luxury-btn-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .luxury-btn-icon {
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .luxury-btn:hover .luxury-btn-icon {
+            transform: translateX(5px) scale(1.1);
+        }
+
+        /* Luxury Footer */
+        .luxury-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+        }
+
+        .luxury-footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-footer-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .luxury-footer-link:hover::before {
+            left: 100%;
+        }
+
+        .luxury-footer-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 10px 25px rgba(0, 0, 0, 0.2),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .luxury-footer-link i {
+            margin-right: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .luxury-footer-link:hover i {
+            transform: scale(1.2);
+            color: var(--gold);
+        }
+
+        /* Premium Badge */
+        .premium-badge {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, 
+                rgba(245, 158, 11, 0.15) 0%, 
+                rgba(139, 92, 246, 0.1) 100%);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 25px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .premium-badge i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .luxury-container {
+                padding: 40px 30px;
+                max-width: 380px;
+            }
+            
+            .luxury-logo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .logo-icon {
+                font-size: 2rem;
+            }
+            
+            .luxury-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .luxury-container {
+                padding: 35px 25px;
+                max-width: 340px;
+            }
+            
+            .luxury-footer {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="luxury-bg"></div>
+    <div class="sparkle"></div>
+
+    <div class="luxury-container">
+        <div class="luxury-header">
+            <div class="luxury-logo">
+                <i class="fas fa-crown logo-icon"></i>
+            </div>
+            <h1 class="luxury-title">Premium Access</h1>
+            <p class="luxury-subtitle">Enter your exclusive credentials</p>
+            <div class="premium-badge">
+                <i class="fas fa-gem"></i>
+                Premium Security Enabled
+            </div>
         </div>
-      </div>
-    </div>
-    
-    <button type="submit" class="premium-btn">
-      <i class="fas fa-fingerprint btn-icon"></i>
-      Authenticate & Continue
-    </button>
-  </form>
-  
-  <div class="divider">
-    <span>Or continue with</span>
-  </div>
-  
-  <div class="social-grid">
-    <a href="#" class="social-btn" style="background: rgba(59, 89, 152, 0.3);">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="#" class="social-btn" style="background: rgba(29, 161, 242, 0.3);">
-      <i class="fab fa-twitter"></i>
-    </a>
-    <a href="#" class="social-btn" style="background: rgba(219, 68, 55, 0.3);">
-      <i class="fab fa-google"></i>
-    </a>
-  </div>
-  
-  <div class="footer-links">
-    <a href="/register" class="footer-link">
-      <i class="fas fa-user-plus"></i>Create Account
-    </a>
-    <a href="/update-password" class="footer-link">
-      <i class="fas fa-key"></i>Recover Access
-    </a>
-  </div>
-</div>
 
-<script>
-  function togglePassword() {
-    const password = document.getElementById('password');
-    const icon = document.querySelector('.password-toggle i');
-    
-    if (password.type === 'password') {
-      password.type = 'text';
-      icon.className = 'fas fa-eye-slash';
-    } else {
-      password.type = 'password';
-      icon.className = 'fas fa-eye';
-    }
-  }
-  
-  // Add floating animation to inputs
-  document.querySelectorAll('.premium-input').forEach(input => {
-    input.addEventListener('focus', () => {
-      input.parentElement.style.transform = 'translateY(-2px)';
-    });
-    
-    input.addEventListener('blur', () => {
-      input.parentElement.style.transform = 'translateY(0)';
-    });
-  });
-</script>
+        <form action="/login" method="POST" class="luxury-form">
+            <div class="input-group">
+                <div class="luxury-input-container">
+                    <i class="fas fa-user-tie luxury-input-icon"></i>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        class="luxury-input" 
+                        placeholder="Your premium email"
+                        required 
+                    />
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <div class="luxury-input-container">
+                    <i class="fas fa-lock luxury-input-icon"></i>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        class="luxury-input" 
+                        id="password"
+                        placeholder="Your secure password"
+                        required 
+                    />
+                    <div class="luxury-password-actions">
+                        <button type="button" class="luxury-action-btn password-toggle" onclick="togglePassword()">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="luxury-btn">
+                <div class="luxury-btn-content">
+                    <i class="fas fa-arrow-right-to-bracket luxury-btn-icon"></i>
+                    <span>Access Premium</span>
+                </div>
+            </button>
+        </form>
+        
+        <div class="luxury-footer">
+            <a href="/register" class="luxury-footer-link">
+                <i class="fas fa-user-plus"></i>
+                <span>Join Premium</span>
+            </a>
+            <a href="/update-password" class="luxury-footer-link">
+                <i class="fas fa-key-skeleton"></i>
+                <span>Recovery</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const password = document.getElementById('password');
+            const icon = document.querySelector('.password-toggle i');
+            
+            if (password.type === 'password') {
+                password.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                password.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Create sparkle effects
+        function createSparkles() {
+            const sparkleContainer = document.querySelector('.sparkle');
+            const sparkleCount = 15;
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.style.cssText = `
+                    position: absolute;
+                    width: 2px;
+                    height: 2px;
+                    background: white;
+                    border-radius: 50%;
+                    animation: sparkle ${3 + Math.random() * 2}s infinite ${Math.random() * 3}s;
+                    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8), 0 0 20px 4px rgba(255, 255, 255, 0.6);
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 100}%;
+                `;
+                sparkleContainer.appendChild(sparkle);
+            }
+        }
+
+        // Enhanced input interactions
+        document.querySelectorAll('.luxury-input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateY(-3px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateY(0)';
+            });
+        });
+
+        // Luxury loading state
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.luxury-btn');
+            const originalContent = btn.innerHTML;
+            
+            btn.innerHTML = `
+                <div class="luxury-btn-content">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Premium Authentication...</span>
+                </div>
+            `;
+            btn.disabled = true;
+            btn.style.animation = 'gradientShift 1s ease infinite';
+            
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+                btn.style.animation = 'gradientShift 3s ease infinite';
+                this.submit();
+            }, 2500);
+        });
+
+        // Initialize sparkles
+        createSparkles();
+    </script>
+</body>
+</html>
