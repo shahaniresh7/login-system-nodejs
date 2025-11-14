@@ -1,7 +1,349 @@
-<h2>Login</h2>
-<form action="/login" method="POST">
-  <input type="email" name="email" placeholder="Email" required /><br>
-  <input type="password" name="password" placeholder="Password" required /><br>
-  <button type="submit">Login</button>
-</form>
-<a href="/register">Register</a> | <a href="/update-password">Update Password</a>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+  @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .login-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 24px;
+    padding: 50px 40px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite linear;
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  .login-header {
+    text-align: center;
+    margin-bottom: 45px;
+  }
+  
+  .login-icon {
+    font-size: 3.5rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .login-title {
+    color: #333;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  
+  .login-subtitle {
+    color: #666;
+    font-size: 1rem;
+  }
+  
+  .input-group {
+    position: relative;
+    margin-bottom: 35px;
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #667eea;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    z-index: 2;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 18px 20px 18px 55px;
+    border: 2px solid #e1e1e1;
+    border-radius: 15px;
+    font-size: 16px;
+    background: white;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .form-input:focus + .input-icon {
+    color: #764ba2;
+    transform: translateY(-50%) scale(1.1);
+  }
+  
+  .floating-label {
+    position: absolute;
+    left: 55px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 0 8px;
+  }
+  
+  .form-input:focus ~ .floating-label,
+  .form-input:not(:placeholder-shown) ~ .floating-label {
+    top: 0;
+    font-size: 12px;
+    color: #667eea;
+    font-weight: 500;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .password-toggle:hover {
+    color: #667eea;
+  }
+  
+  .login-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+  
+  .login-btn:hover::before {
+    left: 100%;
+  }
+  
+  .login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  }
+  
+  .login-btn i {
+    margin-right: 8px;
+  }
+  
+  .links-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #eee;
+  }
+  
+  .link-item {
+    display: flex;
+    align-items: center;
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 10px 15px;
+    border-radius: 10px;
+  }
+  
+  .link-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .link-item i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+  
+  .social-login {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid #eee;
+  }
+  
+  .social-title {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .social-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+  }
+  
+  .social-icon:hover {
+    transform: translateY(-3px) scale(1.1);
+  }
+  
+  .social-icon.google { background: #db4437; }
+  .social-icon.facebook { background: #4267B2; }
+  .social-icon.twitter { background: #1DA1F2; }
+</style>
+
+<div class="login-container">
+  <div class="login-header">
+    <div class="login-icon">
+      <i class="fas fa-user-shield"></i>
+    </div>
+    <h1 class="login-title">Welcome Back</h1>
+    <p class="login-subtitle">Sign in to continue your journey</p>
+  </div>
+  
+  <form action="/login" method="POST">
+    <div class="input-group">
+      <input 
+        type="email" 
+        name="email" 
+        class="form-input" 
+        placeholder=" "
+        required 
+      />
+      <i class="fas fa-envelope input-icon"></i>
+      <label class="floating-label">Email Address</label>
+    </div>
+    
+    <div class="input-group">
+      <input 
+        type="password" 
+        name="password" 
+        class="form-input" 
+        id="password"
+        placeholder=" "
+        required 
+      />
+      <i class="fas fa-lock input-icon"></i>
+      <label class="floating-label">Password</label>
+      <button type="button" class="password-toggle" onclick="togglePassword()">
+        <i class="fas fa-eye"></i>
+      </button>
+    </div>
+    
+    <button type="submit" class="login-btn">
+      <i class="fas fa-sign-in-alt"></i>Sign In
+    </button>
+  </form>
+  
+  <div class="social-login">
+    <div class="social-title">Or continue with</div>
+    <div class="social-icons">
+      <a href="#" class="social-icon google">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="#" class="social-icon facebook">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a href="#" class="social-icon twitter">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </div>
+  </div>
+  
+  <div class="links-container">
+    <a href="/register" class="link-item">
+      <i class="fas fa-user-plus"></i>Create Account
+    </a>
+    <a href="/update-password" class="link-item">
+      <i class="fas fa-key"></i>Forgot Password?
+    </a>
+  </div>
+</div>
+
+<script>
+  function togglePassword() {
+    const password = document.getElementById('password');
+    const icon = document.querySelector('.password-toggle i');
+    
+    if (password.type === 'password') {
+      password.type = 'text';
+      icon.className = 'fas fa-eye-slash';
+    } else {
+      password.type = 'password';
+      icon.className = 'fas fa-eye';
+    }
+  }
+</script>
